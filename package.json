@@ -1,0 +1,29 @@
+{
+  "name": "serversideformsJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node build/infra/server.js",
+    "buildStart": "npm build && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magnusandy/serversideformsJS.git"
+  },
+  "keywords": [],
+  "author": "Andrew Magnus <magnusandy@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/magnusandy/serversideformsJS/issues"
+  },
+  "homepage": "https://github.com/magnusandy/serversideformsJS#readme",
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "express": "^4.16.4",
+    "java8script": "^1.0.0",
+    "typescript": "^3.1.6"
+  }
+}
