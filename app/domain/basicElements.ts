@@ -21,7 +21,7 @@ export class BasicFormElements {
         return this.description;
     }
 
-    public setID(id: string): void {
+    public setId(id: string): void {
         this.id = id;
     }
 
