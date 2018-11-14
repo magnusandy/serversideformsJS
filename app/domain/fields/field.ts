@@ -1,5 +1,5 @@
-import { Optional, Stream } from "java8script";
-import {BasicFieldElements} from "../basicElements";
+import { Optional, Stream, Supplier } from "java8script";
+import { BasicFieldElements } from "../basicElements";
 import ValidationResults from "../validators/validationResults";
 
 /**
@@ -14,6 +14,19 @@ export default abstract class Field extends BasicFieldElements {
     abstract validate(input: any): ValidationResults[];
     public isValid(input: any): boolean {
         return Stream.of(this.validate(input))
-                     .allMatch(results => results.isValid())
+            .allMatch(results => results.isValid())
+    }
+
+    /**
+ * Determines the correct errorMessage to use, first taking the user supplied message,
+ * then the user supplied global defaultdefault, or the function defined deault (if given) finally returning "Failed to validate number" if all else fails.
+ * @param userGiven
+ */
+    protected determineErrorMessageForField(fieldDefault: string): (userGiven?: string, functionDefined?: string) => Supplier<string> {
+        return (userGiven?: string, functionDefined?: string) =>
+            () => Optional.ofNullable(userGiven)
+                .orElse(this.getDefaultErrorMessage()
+                    .orElse(Optional.ofNullable(functionDefined)
+                        .orElse(fieldDefault)));
     }
 }

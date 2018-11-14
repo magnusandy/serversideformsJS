@@ -109,17 +109,6 @@ export class NumberField extends Field {
         return this;
     }
 
-    /**
-     * Determines the correct errorMessage to use, first taking the user supplied message,
-     * then the user supplied global defaultdefault, or the function defined deault (if given) finally returning "Failed to validate number" if all else fails.
-     * @param userGiven
-     */
-    private determineErrorMessage(userGiven?: string): Supplier<string>;
-    private determineErrorMessage(userGiven: string | undefined, functionDefined: string): Supplier<string>;
-    private determineErrorMessage(userGiven?: string, functionDefined?: string): Supplier<string> {
-        return () => Optional.ofNullable(userGiven)
-                       .orElse(this.getDefaultErrorMessage()
-                                   .orElse(Optional.ofNullable(functionDefined)
-                                                   .orElse("Failed to validate number")));
-    }
+    private determineErrorMessage: (userGiven?: string, functionDefined?: string) => Supplier<string> = 
+        this.determineErrorMessageForField("The given input number is invalid");
 }
