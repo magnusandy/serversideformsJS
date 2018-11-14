@@ -1,3 +1,5 @@
+import { Optional } from "java8script";
+
 export class BasicFormElements {
     private id: string;
     private name: string;
@@ -39,13 +41,14 @@ export class BasicFieldElements {
     private name: string;
     private description: string;
     private required: boolean;
-    //private defaultErrorMessage: string //todo, not sure if needed
+    private defaultErrorMessage: Optional<string>; 
 
-    protected constructor(id: string, name: string, description: string, required: boolean) {
+    protected constructor(id: string, name: string, description: string, required: boolean, defaultErrorMessage: Optional<string>) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.required = required;
+        this.defaultErrorMessage = defaultErrorMessage;
     }
 
     public getName(): string {
@@ -64,6 +67,10 @@ export class BasicFieldElements {
         return this.required;
     }
 
+    public getDefaultErrorMessage(): Optional<string> {
+        return this.defaultErrorMessage;
+    }
+
     public setId(id: string): void {
         this.id = id;
     }
@@ -78,5 +85,9 @@ export class BasicFieldElements {
 
     public setRequired(isRequired: boolean) : void {
         this.required = isRequired;
+    }
+
+    public setDefaultErrorMessage(defaultErrorMessage: Optional<string>): void {
+        this.defaultErrorMessage = defaultErrorMessage;
     }
 }
