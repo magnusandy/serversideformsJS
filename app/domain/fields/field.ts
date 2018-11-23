@@ -17,9 +17,9 @@ export default abstract class Field extends BasicFieldElements {
             .allMatch(results => results.isValid())
     }
 
-    /**
+/**
  * Determines the correct errorMessage to use, first taking the user supplied message,
- * then the user supplied global defaultdefault, or the function defined deault (if given) finally returning "Failed to validate number" if all else fails.
+ * then the user supplied global defaultdefault, or the function defined deault (if given) finally returning fieldDefault if all else fails.
  * @param userGiven
  */
     protected determineErrorMessageForField(fieldDefault: string): (userGiven?: string, functionDefined?: string) => Supplier<string> {

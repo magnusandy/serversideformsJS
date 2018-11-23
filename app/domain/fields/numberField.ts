@@ -44,7 +44,7 @@ export class NumberField extends Field {
     public addRangeClosed(lower: number, upper: number, errorMessage: string): NumberField;
     public addRangeClosed(lower: number, upper: number, errorMessage?: string): NumberField {
         return this.addCustomValidator(Validator.create(
-            this.determineErrorMessage(errorMessage, `input must be greater or equal to ${lower} and less or equal to ${upper}`), 
+            this.determineErrorMessage(errorMessage, `input must be greater or equal to ${lower} and less or equal to ${upper}.`), 
             (input: number) => (input >= lower) && (input <= upper)
         ));
     }
@@ -53,7 +53,7 @@ export class NumberField extends Field {
     public addRangeOpen(lower: number, upper: number, errorMessage: string): NumberField;
     public addRangeOpen(lower: number, upper: number, errorMessage?: string): NumberField {
         return this.addCustomValidator(Validator.create(
-            this.determineErrorMessage(errorMessage, `input must be greater than ${lower} and less than ${upper}`), 
+            this.determineErrorMessage(errorMessage, `input must be greater than ${lower} and less than ${upper}.`), 
             (input: number) => (input > lower) && (input < upper)
         ));
     }
@@ -62,7 +62,7 @@ export class NumberField extends Field {
     public addRangeClosedOpen(lower: number, upper: number, errorMessage: string): NumberField;
     public addRangeClosedOpen(lower: number, upper: number, errorMessage?: string): NumberField {
         return this.addCustomValidator(Validator.create(
-            this.determineErrorMessage(errorMessage, `input must be greater or equal to ${lower} and less than ${upper}`), 
+            this.determineErrorMessage(errorMessage, `input must be greater or equal to ${lower} and less than ${upper}.`), 
             (input: number) =>(input >= lower) && (input < upper)
         ));
     }
@@ -71,37 +71,49 @@ export class NumberField extends Field {
     public addRangeOpenClosed(lower: number, upper: number, errorMessage: string): NumberField;
     public addRangeOpenClosed(lower: number, upper: number, errorMessage?: string): NumberField {
         return this.addCustomValidator(Validator.create(
-            this.determineErrorMessage(errorMessage, "`input must be greater than ${lower} and less or equal to ${upper}`"), 
+            this.determineErrorMessage(errorMessage, `input must be greater than ${lower} and less or equal to ${upper}.`), 
             (input: number) => (input > lower) && (input <= upper)
         ));
     }
-
-    public addGreaterThan(value: number, errorMessage: string): NumberField {
-        return this.addCustomValidator(Validator.create(errorMessage, (input: number) =>
-            input > value
+    public addGreaterThan(value: number): NumberField;
+    public addGreaterThan(value: number, errorMessage: string): NumberField;
+    public addGreaterThan(value: number, errorMessage?: string): NumberField {
+        return this.addCustomValidator(Validator.create(
+            this.determineErrorMessage(errorMessage, `input must be greater than ${value}.`),
+             (input: number) => input > value
         ));
     }
-
-    public addGreaterThanEq(value: number, errorMessage: string): NumberField {
-        return this.addCustomValidator(Validator.create(errorMessage, (input: number) =>
-            input >= value
+    public addGreaterThanEq(value: number): NumberField;
+    public addGreaterThanEq(value: number, errorMessage: string): NumberField;
+    public addGreaterThanEq(value: number, errorMessage?: string): NumberField {
+        return this.addCustomValidator(Validator.create(
+            this.determineErrorMessage(errorMessage, `input must be greater or equal to ${value}.`),
+            (input: number) =>input >= value
         ));
     }
-
-    public addLessThan(value: number, errorMessage: string): NumberField {
-        return this.addCustomValidator(Validator.create(errorMessage, (input: number) =>
-            input < value
+    public addLessThan(value: number): NumberField;
+    public addLessThan(value: number, errorMessage: string): NumberField;
+    public addLessThan(value: number, errorMessage?: string): NumberField {
+        return this.addCustomValidator(Validator.create(
+            this.determineErrorMessage(errorMessage,`input must be less than ${value}.`),
+            (input: number) => input < value
         ));
     }
-
-    public addLessThanEq(value: number, errorMessage: string): NumberField {
-        return this.addCustomValidator(Validator.create(errorMessage, (input: number) =>
-            input <= value
+    public addLessThanEq(value: number): NumberField;
+    public addLessThanEq(value: number, errorMessage: string): NumberField;
+    public addLessThanEq(value: number, errorMessage?: string): NumberField {
+        return this.addCustomValidator(Validator.create(
+            this.determineErrorMessage(errorMessage, `input must be less than or equal to ${value}.`),
+            (input: number) => input <= value
         ));
     }
-    
-    public addOneOf(validValues: number[], errorMessage: string): NumberField {
-        return this.addCustomValidator(Validator.oneOf(errorMessage, validValues));
+    public addOneOf(validValues: number[]): NumberField;
+    public addOneOf(validValues: number[], errorMessage: string): NumberField;   
+    public addOneOf(validValues: number[], errorMessage?: string): NumberField {
+        return this.addCustomValidator(Validator.oneOf(
+            this.determineErrorMessage(errorMessage, `input must be one of ${validValues.toString()}`),
+            validValues
+            ));
     }
 
     private addCustomValidator(validator: Validator<number>): NumberField {

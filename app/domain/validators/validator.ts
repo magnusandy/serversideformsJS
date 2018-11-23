@@ -15,14 +15,14 @@ export default class Validator<T> {
     }
 
     public static create<T>(errorMessage: string, validatorFunction: Predicate<T>): Validator<T>;
-    public static create<T>(errorMessageSupplier: Supplier<string>, validatorFunction: Predicate<T>): Validator<T>;    
+    public static create<T>(errorMessageSupplier: Supplier<string>, validatorFunction: Predicate<T>): Validator<T>;
     public static create<T>(errorMessage: string | Supplier<string>, validatorFunction: Predicate<T>): Validator<T> {
-        if(typeof errorMessage === "string") {
+        if (typeof errorMessage === "string") {
             return new Validator(() => errorMessage, validatorFunction);
         } else {
             return new Validator(errorMessage, validatorFunction);
         }
-        
+
     }
 
     public validate(input: T): ValidationResults {
@@ -30,10 +30,17 @@ export default class Validator<T> {
             ? ValidationResults.success()
             : ValidationResults.error(this.errorMessageSupplier());
     }
-
-    public static oneOf<T>(errorMessage: string, validValues: T[]): Validator<T> {
-        return Validator.create(errorMessage, (input: T) =>
-            Stream.of(validValues).anyMatch(validValue => validValue === input)
-        );
+    public static oneOf<T>(errorMessage: string, validValues: T[]): Validator<T>;
+    public static oneOf<T>(errorMessage: Supplier<string>, validValues: T[]): Validator<T>;
+    public static oneOf<T>(errorMessage: string | Supplier<string>, validValues: T[]): Validator<T> {
+        if (typeof errorMessage === "string") {
+            return Validator.create(errorMessage, (input: T) =>
+                Stream.of(validValues).anyMatch(validValue => validValue === input)
+            );
+        } else {
+            return Validator.create(errorMessage, (input: T) =>
+                Stream.of(validValues).anyMatch(validValue => validValue === input)
+            );
+        }
     }
 }
