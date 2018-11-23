@@ -18,11 +18,10 @@ export default abstract class Field extends BasicFieldElements {
     }
 
 /**
- * Determines the correct errorMessage to use, first taking the user supplied message,
- * then the user supplied global defaultdefault, or the function defined deault (if given) finally returning fieldDefault if all else fails.
- * @param userGiven
+ return a function that determines the error message to use
+ @param fieldDefault default error message for the type of field
  */
-    protected determineErrorMessageForField(fieldDefault: string): (userGiven?: string, functionDefined?: string) => Supplier<string> {
+    protected determineErrorMessageForFieldFunc(fieldDefault: string): (userGiven?: string, functionDefined?: string) => Supplier<string> {
         return (userGiven?: string, functionDefined?: string) =>
             () => Optional.ofNullable(userGiven)
                 .orElse(this.getDefaultErrorMessage()

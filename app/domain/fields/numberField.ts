@@ -122,5 +122,5 @@ export class NumberField extends Field {
     }
 
     private determineErrorMessage: (userGiven?: string, functionDefined?: string) => Supplier<string> = 
-        this.determineErrorMessageForField("The given input number is invalid");
+        this.determineErrorMessageForFieldFunc("The given input number is invalid");
 }
